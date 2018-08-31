@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserTable extends Migration
+class CreateVoteTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('user', function (Blueprint $table) {
-            $table->string('ticket');
-            $table->boolean('is_admin')->default(false);
-            $table->dateTime('expire')->nullable();
+        Schema::create('vote', function (Blueprint $table) {
+            $table->text('vote_id');
+            $table->text('ticket_id');
+            $table->text('election_id');
+            $table->text('candidate_id');
+            $table->text('prev_id');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -29,6 +31,6 @@ class CreateUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user');
+        Schema::dropIfExists('vote');
     }
 }

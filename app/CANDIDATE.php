@@ -5,15 +5,16 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class USER extends Model
+class CANDIDATE extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'user';
+    protected $table = 'candidate';
 
     protected $fillable = [
-        'ticket',
-        'is_admin'
+        'candidate_id',
+        'election_id',
+        'candidate_name'
     ];
 
     protected $dates = [
