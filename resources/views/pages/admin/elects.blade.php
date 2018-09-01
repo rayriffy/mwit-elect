@@ -49,7 +49,6 @@
                 </div>
                 <form action="{{ route('admin.elect.add') }}" method="post">
                   @csrf
-                  <input type="hidden" name="election_id" value="{{ $election["election_id"] }}">
                   <div class="modal-body">
                     <div class="form-row">
                       <div class="form-group col-12">

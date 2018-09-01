@@ -138,7 +138,7 @@ Route::prefix('admin')->middleware(['checkauth', 'checkadmin'])->group(function 
     })->name('admin.candidate.add');
     Route::get('elects', function() {
         $elections = ELECTION::where('admin_ticket', Crypt::decryptString(Cookie::get('ticketdata')))->get();
-        return view('pages.admin.elects')->with('elections', $elections);
+        return view('pages.admin.elects')->with('elections', isset($elections)?$elections:null);
     })->name('admin.elect.all');
     Route::get('elect/{elect}', function($elect) {
         if(empty($elect)) {
