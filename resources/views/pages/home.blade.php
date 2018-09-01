@@ -24,14 +24,24 @@
                     {{ $election["election_name"] }}
                   </td>
                   <td>
-                    @if (\App\VOTE::where('election_id', $election["election_id"])->where('ticket_id', Crypt::decryptString(Cookie::get('ticketdata')))->exists())
-                    <span class="badge badge-secondary">Voted</span>
-                    @elseif (\Carbon\Carbon::parse($election["election_start"])->isFuture())
-                    <span class="badge badge-primary">Soon</span>
-                    @elseif (\Carbon\Carbon::parse($election["election_end"])->isPast())
-                    <span class="badge badge-danger">Closed</span>
+                    @if (Cookie::get('ticketdata') !== null)
+                      @if (\App\VOTE::where('election_id', $election["election_id"])->where('ticket_id', \Illuminate\Support\Facades\Crypt::decryptString(Cookie::get('ticketdata')))->exists())
+                      <span class="badge badge-secondary">Voted</span>
+                      @elseif (\Carbon\Carbon::parse($election["election_start"])->isFuture())
+                      <span class="badge badge-primary">Soon</span>
+                      @elseif (\Carbon\Carbon::parse($election["election_end"])->isPast())
+                      <span class="badge badge-danger">Closed</span>
+                      @else
+                      <span class="badge badge-success">Open</span>
+                      @endif
                     @else
-                    <span class="badge badge-success">Open</span>
+                      @if (\Carbon\Carbon::parse($election["election_start"])->isFuture())
+                      <span class="badge badge-primary">Soon</span>
+                      @elseif (\Carbon\Carbon::parse($election["election_end"])->isPast())
+                      <span class="badge badge-danger">Closed</span>
+                      @else
+                      <span class="badge badge-success">Open</span>
+                      @endif
                     @endif
                   </td>
                 </tr>

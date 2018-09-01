@@ -22,7 +22,7 @@ use App\CANDIDATE;
 */
 
 Route::get('/', function () {
-    $election = ELECTION::where('election_end', '>', Carbon::now()->subMonth())->with('election_start', '<', Carbon::now()->addDay());
+    $election = ELECTION::where('election_end', '>', Carbon::now()->subMonth())->where('election_start', '<', Carbon::now()->addDay())->get();
     return view('pages.home')->with('elections', isset($election)?$election:null);
 })->name('home');
 
@@ -43,7 +43,7 @@ Route::get('logout', function() {
 
 Route::prefix('user')->middleware(['checkauth'])->group(function () {
     Route::get('elect', function() {
-        $election = ELECTION::where('election_end', '>', Carbon::now()->subMonth())->with('election_start', '<', Carbon::now()->addDay());
+        $election = ELECTION::where('election_end', '>', Carbon::now()->subMonth())->where('election_start', '<', Carbon::now()->addDay())->get();
         return view('pages.election')->with('elections', isset($election)?$election:null);
     })->name('user.elect');
     Route::get('vote/{elect}', function($elect) {
@@ -56,29 +56,29 @@ Route::prefix('user')->middleware(['checkauth'])->group(function () {
     })->name('user.vote.page');
     Route::post('vote', function(Request $request) {
         if(empty($request["candidate_id"]) || empty($request["election_id"])) {
-            return view('page.error.custom')->with('error_text', 'Unexpected Error, please try again');
+            return view('pages.error.custom')->with('error_text', 'Unexpected Error, please try again');
         }
         if(!(CANDIDATE::where('candidate_id', $request["candidate_id"])->where('election_id', $request["election_id"])->exists())) {
-            return view('page.error.custom')->with('error_text', 'This candidate does not exist');
+            return view('pages.error.custom')->with('error_text', 'This candidate does not exist');
         }
 
         $ticket_id = Crypt::decryptString(Cookie::get('ticketdata'));
 
         if(VOTE::where('ticket_id', $ticket_id)->where('election_id', $request["election_id"])->exists()) {
-            return view('page.error.custom')->with('error_text', 'You already voted!');
+            return view('pages.error.custom')->with('error_text', 'You already voted!');
         }
 
-        $last_vote = VOTE::select('vote_id')->all()->last();
+        $last_vote = VOTE::select('vote_id')->orderBy('updated_at', 'desc')->first();
 
         $vote = new VOTE;
         $vote->vote_id = str_random(256);
         $vote->ticket_id = $ticket_id;
         $vote->election_id = $request["election_id"];
         $vote->candidate_id = $request["candidate_id"];
-        $vote->prev_id = $last_vote["vote_id"];
+        $vote->prev_id = isset($last_vote["vote_id"])?$last_vote["vote_id"]:"start";
         $vote->save();
 
-        return view('page.voted');
+        return view('pages.voted');
 
     })->name('user.vote.sys');
 });

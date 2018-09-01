@@ -24,7 +24,7 @@
                 <tr>
                   <td>
                     {{ $election["election_name"] }}
-                    @if (\App\VOTE::where('election_id', $election["election_id"])->where('ticket_id', Crypt::decryptString(Cookie::get('ticketdata')))->exists())
+                    @if (\App\VOTE::where('election_id', $election["election_id"])->where('ticket_id', \Illuminate\Support\Facades\Crypt::decryptString(Cookie::get('ticketdata')))->exists())
                     <span class="badge badge-secondary">Voted</span>
                     @elseif (\Carbon\Carbon::parse($election["election_start"])->isFuture())
                     <span class="badge badge-primary">Soon</span>
@@ -37,12 +37,12 @@
                   <td>{{ $election["election_start"] }}</td>
                   <td>{{ $election["election_end"] }}</td>
                   <td>
-                    @if (\App\VOTE::where('election_id', $election["election_id"])->where('ticket_id', Crypt::decryptString(Cookie::get('ticketdata')))->exists())
-                    <button type="button" class="btn btn-lg btn-primary" disabled>Vote</button>
+                    @if (\App\VOTE::where('election_id', $election["election_id"])->where('ticket_id', \Illuminate\Support\Facades\Crypt::decryptString(Cookie::get('ticketdata')))->exists())
+                    <button type="button" class="btn btn-primary" disabled>Vote</button>
                     @elseif (\Carbon\Carbon::parse($election["election_start"])->isFuture())
-                    <button type="button" class="btn btn-lg btn-primary" disabled>Vote</button>
+                    <button type="button" class="btn btn-primary" disabled>Vote</button>
                     @elseif (\Carbon\Carbon::parse($election["election_end"])->isPast())
-                    <button type="button" class="btn btn-lg btn-primary" disabled>Vote</button>
+                    <button type="button" class="btn btn-primary" disabled>Vote</button>
                     @else
                     <a class="btn btn-primary" href="{{ route('user.vote.page', ['elect' => $election["election_id"]]) }}" role="button">Vote</a>
                     @endif
