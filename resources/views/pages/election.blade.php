@@ -34,8 +34,8 @@
                     <span class="badge badge-success">Open</span>
                     @endif
                   </td>
-                  <td>{{ $election["election_start"] }}</td>
-                  <td>{{ $election["election_end"] }}</td>
+                  <td>{{ \Carbon\Carbon::createFromTimeString($election["election_start"], 'UTC')->setTimezone('Asia/Bangkok') }}</td>
+                  <td>{{ \Carbon\Carbon::createFromTimeString($election["election_end"], 'UTC')->setTimezone('Asia/Bangkok') }}</td>
                   <td>
                     @if (\App\VOTE::where('election_id', $election["election_id"])->where('ticket_id', \Illuminate\Support\Facades\Crypt::decryptString(Cookie::get('ticketdata')))->exists())
                     <button type="button" class="btn btn-primary" disabled>Vote</button>

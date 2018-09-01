@@ -1,6 +1,6 @@
 @extends('master')
 
-@section('name', 'Editing Election')
+@section('name', 'Admin · Elections · Add')
 
 @section('content')
 

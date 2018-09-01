@@ -18,6 +18,7 @@ class CreateElectionTable extends Migration
             $table->text('election_name');
             $table->dateTime('election_start')->nullable();
             $table->dateTime('election_end')->nullable();
+            $table->text('admin_ticket');
             $table->timestamps();
             $table->softDeletes();
         });
