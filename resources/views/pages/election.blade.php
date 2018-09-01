@@ -62,7 +62,7 @@
           <div class="list-group">
             <a href="{{ route('home') }}" class="list-group-item list-group-item-action">Home</a>
             <a href="#" class="list-group-item list-group-item-action active">Election</a>
-            <a href="{{ route('logout') }}" class="list-group-item list-group-item-action">Logout</a>
+            <a href="{{ route('logout') }}" class="list-group-item list-group-item-action text-danger">Logout</a>
           </div>
         </div>
       </div>

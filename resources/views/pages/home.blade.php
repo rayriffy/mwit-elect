@@ -95,7 +95,7 @@
             <div class="list-group">
               <a href="#" class="list-group-item list-group-item-action active">Home</a>
               <a href="{{ route('user.elect') }}" class="list-group-item list-group-item-action">Election</a>
-              <a href="{{ route('logout') }}" class="list-group-item list-group-item-action">Logout</a>
+              <a href="{{ route('logout') }}" class="list-group-item list-group-item-action text-danger">Logout</a>
             </div>
           @endif
         </div>
