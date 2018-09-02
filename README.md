@@ -67,6 +67,31 @@ Installation
     Done in 29.76s.
     ```.
 
+05. Copy `.env.example` to `.env`
+
+06. Config your own MySQL in `.env`
+
+07. Generate new `APP_KEY`
+
+    ```markdown
+    $ php artisan key:generate
+    Application key [base64:RIFFYDADDYALLHOME] set successfully.
+    ```
+
+08. Migrate database
+
+    ```markdown
+    $ php artisan migrate
+    Migrating: 2018_08_31_060559_create_user_table
+    Migrated:  2018_08_31_060559_create_user_table
+    Migrating: 2018_08_31_111056_create_candidate_table
+    Migrated:  2018_08_31_111056_create_candidate_table
+    Migrating: 2018_08_31_111113_create_election_table
+    Migrated:  2018_08_31_111113_create_election_table
+    Migrating: 2018_08_31_111219_create_vote_table
+    Migrated:  2018_08_31_111219_create_vote_table
+    ```
+
 Routes
 ------
 
@@ -91,3 +116,22 @@ Routes
 |        | POST     | user/vote                                  | user.vote.sys            | Closure | web,checkauth            |
 |        | GET|HEAD | user/vote/{elect}                          | user.vote.page           | Closure | web,checkauth            |
 |        | GET|HEAD | {fallbackPlaceholder}                      |                          | Closure | web                      |
+
+Generating Tickets
+------------------
+
+You can generate *Admin Ticket* by using **artisan**
+
+```markdown
+$ php artisan ticket:admin 1 5
+ Do you want to generate 1 amount of Admin Token that will expire in 5 hours?? (yes/no) [no]:
+ > yes
+
+zVQJbv8oFcL3
+```
+
+In the following command it's mean "**1** Admin Ticket will be generated, which will *expire* in **5** hours"
+
+After confirmation, you will get a ticket. For this example, `zVQJbv8oFcL3` is a generated Admin Ticket
+
+Also works with normal ticket, too. `php artisan ticket:user`
