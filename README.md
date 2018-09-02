@@ -4,7 +4,7 @@ MWITS Election System
 Requirements
 ------------
 
-- PHP 7.1.3+ with r[equired module for Laravel](https://laravel.com/docs/5.6#server-requirements)
+- PHP 7.1.3+ with [required module for Laravel](https://laravel.com/docs/5.6#server-requirements)
 - MariaDB 10.3.9+
 - `composer`
 - `npm` or `yarn`
