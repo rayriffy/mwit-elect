@@ -11,7 +11,7 @@ class TicketAdmin extends Command
      *
      * @var string
      */
-    protected $signature = 'ticket:admin {amount : Amount of ticket to generate}';
+    protected $signature = 'ticket:admin {amount : Amount of ticket to generate} {expire=18 : Hours from now to expire}';
 
     /**
      * The console command description.
@@ -38,13 +38,14 @@ class TicketAdmin extends Command
     public function handle()
     {
         $amount = $this->argument('amount');
-        if ($this->confirm('Do you want to generate '.$amount.' amount of Admin Token?')) {
+        $expire = $this->argument('expire');
+        if ($this->confirm('Do you want to generate '.$amount.' amount of Admin Token that will expire in '.$expire.' hours??')) {
             for ($i=0 ; $i<$amount ; $i++) {
                 $admin_ticket = str_random(12);
                 $user = new \App\USER;
                 $user->ticket = $admin_ticket;
                 $user->is_admin = true;
-                $user->expire = \Carbon\Carbon::now()->addYears(1);
+                $user->expire = \Carbon\Carbon::now()->addHours($expire);
                 $user->save();
                 $this->info($admin_ticket);
             }
